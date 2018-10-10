@@ -1,18 +1,6 @@
 const Moment = require('moment')
- 
-const {
-  PiServer, 
-  say,
-  getShipmentsCount
-} = require("./lib/common")
+const { PiServer, say, getShipmentsCount} = require("./lib/common")
 
-/*
-const formatDate = (n) => { return n<10 ? '0'+n : n}
-
-let today = new Date()
-let day = today.getDate()
-let month = today.getMonth()
-let year = today.getFullYear()*/
 let date = Moment().format('YYYY-MM-DD')
 
 exports.handler = async (event, context) => {
@@ -53,15 +41,21 @@ exports.handler = async (event, context) => {
                 say(context, `I'm sorry, I could not connect to the server`))
               break;
 
-            /*case "OrderCountIntent": console.log('OrderCountIntent')
+            case "OrderCountIntent": console.log('OrderCountIntent')
               date = event.request.intent.slots.timePeriod.value
   
               await getShipmentsCount(axios, date)
               .then(resp => 
-                say(context, `You have ${resp.data} order${parseInt(resp.data) > 1 ? 's' : ''} for ${ date === `${year}-${formatDate(month+1)}-${formatDate(day)}` ? 'today' : 'that day'}`))
+                say(context, `You have ${resp.data} order${parseInt(resp.data) > 1 ? 's' : ''} for ${ date === Moment().format('YYYY-MM-DD') ? 'today' : 'that day'}`))
               .catch(err => 
                 say(context, `I'm sorry, I could not connect to the server`))
-              break;*/
+              break;
+
+            case "StopPrintIntent": console.log("StopPrintIntent")
+
+                // Insert here the code for prionter to stop
+                say(context, "I am stopping the printer")
+                break;
   
             default:
               throw "Invalid intent"

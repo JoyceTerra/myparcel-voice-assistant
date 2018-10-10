@@ -3,11 +3,19 @@ Utterances for PrintIntent:
  - print my orders
  - print my labels
  - print my shipments
+ - print the labels
  - print labels of today
  - print order labels
  - print orders of today
  - print shipment labels
  - print delivery labels
+
+ Utterances for StopPrintintent:
+
+ - cancel printing
+ - stop with printing
+ - stop the printing
+ - stop printing
 
 
  Utterances for PrintByDateIntent:

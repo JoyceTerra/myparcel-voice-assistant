@@ -82,6 +82,16 @@
                         "how many shipments where there on {timePeriod}",
                         "tell me how many orders we had on {timePeriod}"
                     ]
+                },
+                {
+                    "name": "StopPrintIntent",
+                    "slots": [],
+                    "samples": [
+                        "cancel printing",
+                        "stop with printing",
+                        "stop the printing",
+                        "stop printing"
+                    ]
                 }
             ],
             "types": []

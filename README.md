@@ -79,7 +79,7 @@
 
 ### Intents and Utterances
 
-  In this project we have defined 3 intents: print intent, print by date intent and order count intent. Print by date and order count intents both take a slot called timePeriod as an argument. This slot is of AMAZON.DATE type and is used to retrieve information about orders of a specific day (a user can say "yesterday" or "last friday" - Alexa will transform this into an appropriate date request). 
+  In this project we have defined 4 intents: print intent, print by date intent, stop print intent and order count intent. Print by date and order count intents both take a slot called timePeriod as an argument. This slot is of AMAZON.DATE type and is used to retrieve information about orders of a specific day (a user can say "yesterday" or "last friday" - Alexa will transform this into an appropriate date request). 
 
   You can find the full list of uttarances (things that a user may say to Alexa in order to trigger the specific intent request) under /src/utterances.txt 
 
