@@ -70,8 +70,10 @@
 
 ## Alexa Skill
 
+  Since our skill is not published, you need to create you own Alexa skill. 
+  
   In order to create a custom skill for Alexa it is neccesary to have an Amazon Developer account at https://developer.amazon.com/alexa
-
+  
   There you can select Alexa Skills Kit and choose to start a new skill.
   Once a new skill is created it requires an invocation name - this is used as a trigger for the specific skill. In our case "my parcel" is used as invocation name. A user can say "Alexa, open my parcel" to trigger a launch request or "Alexa, ask my parcel to ..." in order to trigger an intent request. 
 
