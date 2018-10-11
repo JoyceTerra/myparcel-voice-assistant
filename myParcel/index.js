@@ -1,5 +1,5 @@
 const Moment = require('moment')
-const { PiServer, say, getShipmentsCount} = require("./lib/common")
+const { PiServer, say, getShipmentsCount, printShiptments} = require("./lib/common")
 
 let date = Moment().format('YYYY-MM-DD')
 
@@ -20,22 +20,17 @@ exports.handler = async (event, context) => {
 
           switch (event.request.intent.name) {
             case "PrintIntent":
-
-            axios.get(`/labels/print/${date}`)
-
-            await getShipmentsCount(axios, date)
-            .then(resp => 
-              say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
-            .catch(err => 
-              say(context, `I'm sorry, I could not connect to the server`))
-            break;
+              await printShiptments(axios, date)
+              .then(resp => 
+                say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
+              .catch(err => 
+                say(context, `I'm sorry, I could not connect to the server`))
+              break
   
             case "PrintByDateIntent":
               date = event.request.intent.slots.timePeriod.value
   
-              axios.get(`/labels/print/${date}`)
-  
-              await getShipmentsCount(axios, date)
+              await printShiptments(axios, date)
               .then(resp => 
                 say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
               .catch(err => 

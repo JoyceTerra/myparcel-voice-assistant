@@ -13,7 +13,8 @@ const PiServer = async () => Axios.create({
 })
 
 // Simplify code logic
-const getShipmentsCount = async (axios, date) => axios.get('/labels/count/' + date)
+const getShipmentsCount = async (axios, date) => axios.get(`/labels/count/${date}`)
+const printShiptments = async(axios, date) => axios.get(`/labels/print/${date}`)
 
 // Alexa speech functions
 const buildSpeechletResponse = (outputText, shouldEndSession) => {
@@ -40,4 +41,5 @@ module.exports = {
   PiServer,
   say,
   getShipmentsCount,
+  printShiptments
 }
