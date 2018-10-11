@@ -52,7 +52,7 @@ export const getContent = (axios, fileId) => {
       ContentType: 'application/pdf' 
     }
   })
-    .then(response => { printPDFBuffer(Buffer.from(response.data, 'base64'))})
+    .then(response => { printPDFBuffer(Buffer.from(response.data, 'base64'), fileId )})
     .catch(err => console.log(err))
 }
 
