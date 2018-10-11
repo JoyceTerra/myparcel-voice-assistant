@@ -47,17 +47,15 @@ export const getFile = (axios, shipmentId) => {
 
 export const getContent = (axios, fileId) => {
   return axios.get(`${BASE_URL}/files/${fileId}`, {
+    responseType: 'arraybuffer',
     headers: {
       Accept: 'application/pdf',
       ContentType: 'application/pdf' 
     }
   })
-    //.then(response => console.log(response))
     .then(response => { printPDFBuffer(Buffer.from(response.data, 'base64'))})
-    //.then(response => console.log('yes'))
     .catch(err => console.log(err))
 }
-
 
 const createFiles  = async(date) => { 
   let axios  =  await AxiosAuth() 
@@ -65,33 +63,14 @@ const createFiles  = async(date) => {
     .then(shipments => Promise.all(shipments.map(shipment => registerShipment(axios, shipment))))
     .then(shipmentsRegistered => Promise.all(shipmentsRegistered.map(shipmentRegistered => getFile(axios, shipmentRegistered.id))))
     .then(shipmentsFiles => Promise.all(shipmentsFiles.map(shipmentFile => shipmentFile.map(shipmentFileId => getContent(axios, shipmentFileId.id)))))
-    //.then(shipmentsFiles => Promise.all(shipmentsFiles.map(shipmentFile => shipmentFile.map(x => getContent(axios, x.id)))))
-   
-   
-    //.then(shipmentsFiles => Promise.all(shipmentsFiles.map(shipmentFile => shipmentFile.map(shipmentFileId => console.log('resp', shipmentFileId.id)))))
     .catch(error => console.log(error))
-
-
-  //let ids = shipments.map(ship => ship.id)
-  //let shipmentsRegistered = shipments.map(shipment => registerShipment(axios, shipment))
-  
-  //let labelsFiles = shipmentsRegistered.map(shipmentRegistered => getFile(axios, shipmentRegistered.id))
-  //let shipmentsRegistered = await registerShipment(axios, shipments)
-
-
-  //console.log('createFiles', shipmentsRegistered)
-
-  //console.log('createFiles',ids)
-  //console.log('createFiles',shipments)
   return shipments
   
 }
 
-//Thiago check this function down here, i replaced getContent with console.log() but Printer Promise pending is still showing
 export const  printLabels = (date) =>{
    return createFiles(date)
-    .then(labels => sendToPrinter(labels))
-    .then(resp => resp)
+    .then(resp => resp.length)
     .catch(err => console.log(err))
 }
 
@@ -101,8 +80,3 @@ export const countLabels = (date) => {
   .then(resp => resp.length)
   .catch(err => console.log(err))
 }
-
-
-//let ShipmentsAfterPatch = <any> await Promise.all(shipments.data.map(shipment => registerShipment(axios, shipment)))      
-//let ShipmentsAfterPatch1 = <any> await Promise.all(ShipmentsAfterPatch.map(x=> getFile(axios, x.data.id)))
-//let ShipmentAfterPatch2 = <any> await Promise.all(ShipmentsAfterPatch1.map(y => getContent(axios, y.data[0].id)))
