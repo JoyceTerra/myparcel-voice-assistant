@@ -56,9 +56,7 @@ exports.handler = async (event, context) => {
                 .catch(err => 
                   say(context, "I'm sorry, the printer is out of control!!!"))
                 break;
-                say(context, "I am stopping the printer")
-                break;
-  
+
             default:
               throw "Invalid intent"
           }
