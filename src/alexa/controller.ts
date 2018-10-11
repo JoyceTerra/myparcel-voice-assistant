@@ -31,8 +31,7 @@ export default class AlexaController {
   @HttpCode(200)
   async stopPrinter(){
     return await executeJob('Hold-New-Jobs', null)
-      .then(hold => executeJob('Pause-Printer-After-Current-Job', null)
-      .then(pause => {data: "I've canceled all the jobs"}))
+      .then(hold => executeJob('Shutdown-Printer', null))
       .catch(err => err)
   }
 }

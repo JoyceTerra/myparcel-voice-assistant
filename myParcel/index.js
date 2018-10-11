@@ -20,17 +20,22 @@ exports.handler = async (event, context) => {
 
           switch (event.request.intent.name) {
             case "PrintIntent":
-              await printShiptments(axios, date)
+
+              axios.get(`/labels/print/${date}`)
+
+              await getShipmentsCount(axios, date)
               .then(resp => 
                 say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
               .catch(err => 
                 say(context, `I'm sorry, I could not connect to the server`))
-              break
+              break;
   
             case "PrintByDateIntent":
               date = event.request.intent.slots.timePeriod.value
   
-              await printShiptments(axios, date)
+              axios.get(`/labels/print/${date}`)
+
+              await getShipmentsCount(axios, date)
               .then(resp => 
                 say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
               .catch(err => 
@@ -50,7 +55,11 @@ exports.handler = async (event, context) => {
             case "StopPrintIntent":
 
                 // Insert here the code for prionter to stop
-                say(context, "I am stopping the printer")
+                await axios.get('/printer/stop')
+                .then(resp => 
+                  say(context, "I am stopping the printer"))
+                .catch(err => 
+                  say(context, "I'm sorry, the printer is out of control!!!"))
                 break;
   
             default:

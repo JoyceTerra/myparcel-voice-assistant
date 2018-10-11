@@ -1,6 +1,6 @@
 const Axios = require('axios')
 
-const PI_URL = 'https://28c3518f.ngrok.io'
+const PI_URL = 'https://cd6a1689.ngrok.io'
 
 const PiServer = async () => Axios.create({
   baseURL: PI_URL,
