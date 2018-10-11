@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
 
           switch (event.request.intent.name) {
             case "PrintIntent":
-            
+
             await getShipmentsCount(axios, date)
             .then(resp => 
               say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
@@ -50,7 +50,12 @@ exports.handler = async (event, context) => {
 
             case "StopPrintIntent":
 
-                // Insert here the code for prionter to stop
+              await axios.get('/printer/stop')
+                .then(resp => 
+                  say(context, "I am stopping the printer"))
+                .catch(err => 
+                  say(context, "I'm sorry, the printer is out of control!!!"))
+                break;
                 say(context, "I am stopping the printer")
                 break;
   
