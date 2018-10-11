@@ -12,7 +12,8 @@ exports.handler = async (event, context) => {
           await getShipmentsCount(axios, date)
             .then(resp => 
               say(context, `Hello, welcome to MyParcel.com. You have ${resp.data} shipment${parseInt(resp.data) > 1 ? 's' : ''} on today's list`))
-            .catch(err => say(context, err.message))
+            .catch(err => 
+              say(context, `I'm sorry, I could not connect to the server`))
           break;        
         
         case "IntentRequest": console.log('IntentRequest')

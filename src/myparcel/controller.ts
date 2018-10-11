@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import { sendToPrinter } from '../printer/controller'
 
 import { 
   printPDFBuffer 
