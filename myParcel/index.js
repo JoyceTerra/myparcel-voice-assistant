@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
     await PiServer().then(async axios => {
       switch (event.request.type) {
 
-        case "LaunchRequest": console.log('LaunchRequest')
+        case "LaunchRequest":
           await getShipmentsCount(axios, date)
             .then(resp => 
               say(context, `Hello, welcome to MyParcel.com. You have ${resp.data} shipment${parseInt(resp.data) > 1 ? 's' : ''} on today's list`))
@@ -16,10 +16,10 @@ exports.handler = async (event, context) => {
               say(context, `I'm sorry, I could not connect to the server`))
           break;        
         
-        case "IntentRequest": console.log('IntentRequest')
+        case "IntentRequest":
 
           switch (event.request.intent.name) {
-            case "PrintIntent": console.log('PrintIntent')
+            case "PrintIntent":
 
             axios.get(`/labels/print/${date}`)
 
@@ -42,17 +42,17 @@ exports.handler = async (event, context) => {
                 say(context, `I'm sorry, I could not connect to the server`))
               break;
 
-            case "OrderCountIntent": console.log('OrderCountIntent')
+            case "OrderCountIntent":
               date = event.request.intent.slots.timePeriod.value
   
               await getShipmentsCount(axios, date)
               .then(resp => 
-                say(context, `You have ${resp.data} order${parseInt(resp.data) > 1 ? 's' : ''} for ${ date === Moment().format('YYYY-MM-DD') ? 'today' : 'that day'}`))
+                say(context, `You have ${resp.data} order${parseInt(resp.data) > 1 ? 's' : ''} for ${ date === Moment().format('YYYY-MM-DD') ? 'today' : Moment(date).format('MMMM [the] Do')}`))
               .catch(err => 
                 say(context, `I'm sorry, I could not connect to the server`))
               break;
 
-            case "StopPrintIntent": console.log("StopPrintIntent")
+            case "StopPrintIntent":
 
                 // Insert here the code for prionter to stop
                 say(context, "I am stopping the printer")
