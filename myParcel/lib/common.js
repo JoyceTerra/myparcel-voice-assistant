@@ -1,6 +1,6 @@
 const Axios = require('axios')
 
-const PI_URL = 'https://c3151774.ngrok.io'
+const PI_URL = 'https://28c3518f.ngrok.io'
 
 const PiServer = async () => Axios.create({
   baseURL: PI_URL,
@@ -13,7 +13,8 @@ const PiServer = async () => Axios.create({
 })
 
 // Simplify code logic
-const getShipmentsCount = async (axios, date) => axios.get('/labels/count/' + date)
+const getShipmentsCount = async (axios, date) => axios.get(`/labels/count/${date}`)
+const printShiptments = async(axios, date) => axios.get(`/labels/print/${date}`)
 
 // Alexa speech functions
 const buildSpeechletResponse = (outputText, shouldEndSession) => {
@@ -40,4 +41,5 @@ module.exports = {
   PiServer,
   say,
   getShipmentsCount,
+  printShiptments
 }

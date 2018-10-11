@@ -1,6 +1,7 @@
 import 'reflect-metadata'
-import { JsonController, Get, NotFoundError, Param, HttpCode, Authorized} from 'routing-controllers';
+import { JsonController, Get, Param, HttpCode, Authorized} from 'routing-controllers';
 import { printLabels, countLabels } from '../myparcel/controller';
+import { executeJob } from '../lib/printer'
 
 @JsonController()
 export default class AlexaController {
@@ -23,5 +24,15 @@ export default class AlexaController {
   ) {
     return countLabels(date)
     .then(resp => resp)
+  }
+
+  @Authorized()
+  @Get('/printer/stop')
+  @HttpCode(200)
+  async stopPrinter(){
+    return await executeJob('Hold-New-Jobs', null)
+      .then(hold => executeJob('Pause-Printer-After-Current-Job', null)
+      .then(pause => {data: "I've canceled all the jobs"}))
+      .catch(err => err)
   }
 }

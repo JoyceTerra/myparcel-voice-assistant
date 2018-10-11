@@ -1,5 +1,5 @@
 const Moment = require('moment')
-const { PiServer, say, getShipmentsCount} = require("./lib/common")
+const { PiServer, say, getShipmentsCount, printShiptments} = require("./lib/common")
 
 let date = Moment().format('YYYY-MM-DD')
 
@@ -8,50 +8,46 @@ exports.handler = async (event, context) => {
     await PiServer().then(async axios => {
       switch (event.request.type) {
 
-        case "LaunchRequest": console.log('LaunchRequest')
+        case "LaunchRequest":
           await getShipmentsCount(axios, date)
             .then(resp => 
               say(context, `Hello, welcome to MyParcel.com. You have ${resp.data} shipment${parseInt(resp.data) > 1 ? 's' : ''} on today's list`))
-            .catch(err => say(context, err.message))
-          break;        
-        
-        case "IntentRequest": console.log('IntentRequest')
-
-          switch (event.request.intent.name) {
-            case "PrintIntent": console.log('PrintIntent')
-
-            axios.get(`/labels/print/${date}`)
-
-            await getShipmentsCount(axios, date)
-            .then(resp => 
-              say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
             .catch(err => 
               say(context, `I'm sorry, I could not connect to the server`))
-            break;
+          break;        
+        
+        case "IntentRequest":
+
+          switch (event.request.intent.name) {
+            case "PrintIntent":
+              await printShiptments(axios, date)
+              .then(resp => 
+                say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
+              .catch(err => 
+                say(context, `I'm sorry, I could not connect to the server`))
+              break
   
             case "PrintByDateIntent":
               date = event.request.intent.slots.timePeriod.value
   
-              axios.get(`/labels/print/${date}`)
-  
-              await getShipmentsCount(axios, date)
+              await printShiptments(axios, date)
               .then(resp => 
                 say(context, `I have sent ${resp.data} label${parseInt(resp.data) > 1 ? 's' : ''} to the printer`))
               .catch(err => 
                 say(context, `I'm sorry, I could not connect to the server`))
               break;
 
-            case "OrderCountIntent": console.log('OrderCountIntent')
+            case "OrderCountIntent":
               date = event.request.intent.slots.timePeriod.value
   
               await getShipmentsCount(axios, date)
               .then(resp => 
-                say(context, `You have ${resp.data} order${parseInt(resp.data) > 1 ? 's' : ''} for ${ date === Moment().format('YYYY-MM-DD') ? 'today' : 'that day'}`))
+                say(context, `You have ${resp.data} order${parseInt(resp.data) > 1 ? 's' : ''} for ${ date === Moment().format('YYYY-MM-DD') ? 'today' : Moment(date).format('MMMM [the] Do')}`))
               .catch(err => 
                 say(context, `I'm sorry, I could not connect to the server`))
               break;
 
-            case "StopPrintIntent": console.log("StopPrintIntent")
+            case "StopPrintIntent":
 
                 // Insert here the code for prionter to stop
                 say(context, "I am stopping the printer")
