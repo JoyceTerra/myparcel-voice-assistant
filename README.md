@@ -102,8 +102,8 @@
 
   Once you have AWS CLI configured you can run 
 
-  $ bash build.sh yourLambdaFunctionName
-
+  `$ bash build.sh yourLambdaFunctionName`
+  
   in the terminal and this should update the code in AWS Lambda. Note that this is a necessary step if you are using dependencies such as Axios in order to fetch or post data. 
 
   Once your lambda function is set up, copy the ARN code (visible on the top right side of the page) to your Alexa Skill endpoint. Save and build the model and you can begin to test it with your Alexa Echo device.
